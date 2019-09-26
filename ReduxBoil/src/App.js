@@ -10,14 +10,21 @@ function App(props)
 
   useEffect(() => { if(props.view === "Load") {props.sagaStart()}});
   var curView;
-  var remotes; 
-  if(props.view !== "Load")
+  var remotes;
+  if(props.view === "Load")
   {
-  curView = <RemoteView></RemoteView>;
+    curView = <h1>load test</h1>;
+  }
+  else if(props.view === "List")
+  {
+    
+    remotes = props.result.map((val) => { return (<h1 style={{textAlign:'center',margin:2}}>{val.replace(".yaml","")}</h1>) }); 
+    console.log(props.result);
+    curView = <div>{remotes}</div>
   }
   else
   {
-    curView = <h1>load test</h1>;
+  
   }
 
 
