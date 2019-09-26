@@ -1,33 +1,48 @@
-import React, { Component } from 'react';
+
+import React, { Component,useState, useEffect} from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import {alertMessage,sagaStart} from './Actions/globalActions'
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    var message;
+import RemoteView from './Views/RemoteView'
+function App(props)
+{ 
+
+  useEffect(() => { if(props.view === "Load") {props.sagaStart()}});
+  var curView;
+  var remotes; 
+  if(props.view !== "Load")
+  {
+  curView = <RemoteView></RemoteView>;
   }
-  render() {
+  else
+  {
+    curView = <h1>load test</h1>;
+  }
+
+
   return (
-    <div className="App">
-      <h1 onClick={() => this.props.alertMessage(this.props.message)}> Click Default Alert Action</h1>
-      <h1 onClick={() => this.props.sagaStart()}> Click Default Saga Action</h1>
-      <h1>Result: {this.props.result} </h1>
+    <div><h1 style={{textAlign:"center"}}>Remote Controller</h1>
+    <div style={{backgroundColor:'gray',width:400,height:800,marginLeft:'auto',marginRight:'auto'}}>
+    {curView}
+
     </div>
-  );
-}
-}
-//THIS FUNCTION MAPS STORE TO STATE
+    </div>
+  )
+    
+    
+};
 const mapState = state => ({
 result: state.globalReducer.result,
+rectList: state.globalReducer.rectList,
+view: state.globalReducer.view
 });
 
 
 //THIS FUNCTION IS USED TO MAP ACTIONS TO FUNCTIONS
 const mapDispatch = dispatch => ({
 alertMessage: (val) => dispatch(alertMessage(val)),
-sagaStart: ()=> dispatch(sagaStart())
+sagaStart: ()=> dispatch(sagaStart()),
 
 });
 
@@ -35,3 +50,6 @@ export default connect(
   mapState,
   mapDispatch
 )(App);
+
+
+

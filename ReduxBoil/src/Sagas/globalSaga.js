@@ -9,13 +9,11 @@ import Axios from 'axios';
 
 function* testSaga(action) {
     try {
-        const response = yield call(Axios.get, `https://reqres.in/api/users?page=2`);
+        const response = yield call(Axios.get, `http://localhost:3005/getRemoteTypes`);
 
         yield put({
             type: GlobalActions.TESTSAGA.SUCCESS,
-            payload: {
-                nodes: response.data
-            }
+            payload: response.data
         })
 
     } catch (e) {
